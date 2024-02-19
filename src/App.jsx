@@ -5,9 +5,11 @@ const App = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState('default');
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, [searchTerm, sortOption]);
 
   const apiUrl = 'https://fakestoreapi.com/products';
@@ -45,8 +47,27 @@ const App = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/categories`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const categoriesData = await response.json();
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
   const handleSortOptionChange = (option) => {
     setSortOption(option);
+  };
+
+  const handleCardClick = (category) => {
+    setSearchTerm(category);
   };
 
   return (
@@ -77,6 +98,21 @@ const App = () => {
         </select>
       </div>
 
+      <div>
+        <p>Categories:</p>
+        <div>
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCardClick(category)}
+              className={`p-2 m-2 ${searchTerm === category ? 'bg-gray-300' : 'bg-gray-100'} rounded`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-wrap">
         {loading ? (
           <p>Loading...</p>
@@ -94,6 +130,7 @@ const App = () => {
                 <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
                 <p className="text-gray-600">{product.description}</p>
                 <p className="text-gray-500 mt-2">Price: ${product.price}</p>
+               
                 <p className="text-gray-500">Category: {product.category}</p>
                 <p className="text-gray-500">Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
               </div>
