@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import SearchBar from './SearchBar';
+import SortDropdown from './SortDropdown';
+import CategoryButtons from './CategoryButtons';
+import ProductCard from './ProductCard';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -72,46 +76,9 @@ const App = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
-        />
-        <button
-          onClick={() => fetchProducts()}
-          className="ml-2 p-2 bg-blue-500 text-white rounded"
-        >
-          Search
-        </button>
-        <label className="ml-2">Sort by: </label>
-        <select
-          value={sortOption}
-          onChange={(e) => handleSortOptionChange(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
-        >
-          <option value="default">Default</option>
-          <option value="priceLowToHigh">Price Low to High</option>
-          <option value="priceHighToLow">Price High to Low</option>
-        </select>
-      </div>
-
-      <div>
-        <p>Categories:</p>
-        <div>
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCardClick(category)}
-              className={`p-2 m-2 ${searchTerm === category ? 'bg-gray-300' : 'bg-gray-100'} rounded`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} fetchProducts={fetchProducts} />
+      <SortDropdown sortOption={sortOption} handleSortOptionChange={handleSortOptionChange} />
+      <CategoryButtons categories={categories} searchTerm={searchTerm} handleCardClick={handleCardClick} />
 
       <div className="flex flex-wrap">
         {loading ? (
@@ -119,23 +86,7 @@ const App = () => {
         ) : productData.length === 0 ? (
           <p>No products found.</p>
         ) : (
-          productData.map((product) => (
-            <div key={product.id} className="w-full md:w-1/2 lg:w-1/3 p-4">
-              <div className="bg-white p-6 my-4 rounded-lg shadow-md">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-auto rounded-md mb-2"
-                />
-                <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-                <p className="text-gray-600">{product.description}</p>
-                <p className="text-gray-500 mt-2">Price: ${product.price}</p>
-               
-                <p className="text-gray-500">Category: {product.category}</p>
-                <p className="text-gray-500">Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
-              </div>
-            </div>
-          ))
+          productData.map((product) => <ProductCard key={product.id} product={product} />)
         )}
       </div>
     </div>
