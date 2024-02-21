@@ -5,18 +5,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Category from "./Category";
 import Home from "./Home";
 import Header from "./Header";
+import { ProductProvider } from "./ProductContext"; // Import ProductProvider
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/category" element={<Category />} >
-        <Route path="category/:category" element={<category />}/>
-        </Route>
-
-      </Routes>
+      <ProductProvider>
+        {/* Wrap the entire application with ProductProvider */}
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/category" element={<Category />} >
+            <Route path=":category" element={<Category />} /> {/* Corrected typo in route */}
+          </Route>
+        </Routes>
+      </ProductProvider>
     </BrowserRouter>
   );
 }

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useProductContext } from './ProductContext';
 
-const SortDropdown = ({ sortOption, handleSortOptionChange }) => {
+const SortDropdown = () => {
+  const { sortOption, handleSortOptionChange } = useProductContext();
+
   return (
     <>
       <label className="ml-2">Sort by: </label>

@@ -1,9 +1,9 @@
 // CategoryButtons.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigation } from './NavigationContext';
 
 const CategoryButtons = ({ categories, searchTerm, handleCardClick }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigation();
 
   const handleButtonClick = (category) => {
     // Update the URL and trigger navigation to the category page

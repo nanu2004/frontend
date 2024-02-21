@@ -1,35 +1,10 @@
-// HomePage.js
-import React, { useState, useEffect } from 'react';
+// HomePage.jsx
+import React from 'react';
 import ProductCard from './ProductCard';
+import { useProductContext } from './ProductContext';
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(false);
-  const [productData, setProductData] = useState([]);
-
-  useEffect(() => {
-    const apiUrl = 'https://fakestoreapi.com/products';
-
-    const fetchData = async () => {
-      setLoading(true);
-
-      try {
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setProductData(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { productData, loading } = useProductContext(); // Access context data
 
   return (
     <div className="container mx-auto p-4">
