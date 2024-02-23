@@ -1,9 +1,12 @@
 // ProductCard.jsx
 import React from 'react';
 import { useProductContext } from './ProductContext';
+import { Link } from 'react-router-dom';
+import { useCartContext } from './CartContext';
 
 const ProductCard = () => {
   const { productData } = useProductContext();
+  const { addToCart } = useCartContext();
 
   return (
     <div className="flex flex-wrap">
@@ -23,6 +26,21 @@ const ProductCard = () => {
             <p className="text-gray-500">
               Rating: {product.rating.rate} ({product.rating.count} reviews)
             </p>
+            
+            {/* Add to Cart Button with Link */}
+            <Link
+              to={{
+                pathname: "/card",
+                state: { product },
+              }}
+            >
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+                onClick={() => addToCart(product)}
+              >
+                Add to Cart
+              </button>
+            </Link>
           </div>
         </div>
       ))}

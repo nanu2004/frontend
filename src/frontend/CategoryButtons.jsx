@@ -1,6 +1,6 @@
 // CategoryButtons.jsx
 import React from 'react';
-import { useNavigation } from './NavigationContext';
+import { useNavigation } from '../NavigationContext';
 
 const CategoryButtons = ({ categories, searchTerm, handleCardClick }) => {
   const navigate = useNavigation();

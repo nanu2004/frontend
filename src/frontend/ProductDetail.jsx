@@ -9,6 +9,7 @@ const ProductDetail = () => {
   const {
     searchTerm,
     setSearchTerm,
+    
     productData,
     loading,
     sortOption,

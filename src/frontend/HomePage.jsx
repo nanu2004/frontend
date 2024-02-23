@@ -1,7 +1,7 @@
 // HomePage.jsx
 import React from 'react';
-import ProductCard from './ProductCard';
-import { useProductContext } from './ProductContext';
+import ProductCard from '../ProductCard';
+import { useProductContext } from '../ProductContext';
 
 const HomePage = () => {
   const { productData, loading } = useProductContext(); // Access context data
